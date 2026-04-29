@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Категорія: {{ category.name }}{% endblock %}
+
+{% block content %}
+    <a class="crumb" href="{% url 'blog:article_list' %}">← Усі статті</a>
+    <h2>{{ category.name }}</h2>
+    {% if category.description %}
+        <p class="meta" style="color:#6e7781;">{{ category.description }}</p>
+    {% endif %}
+
+    <ul class="plain">
+        {% for article in articles %}
+            <li class="card">
+                <div class="title">
+                    <a href="{% url 'blog:article_detail' article.id %}">{{ article.title }}</a>
+                </div>
+                <div class="meta">
+                    {{ article.created_at|date:"d.m.Y H:i" }}
+                    · {{ article.comments.count }} комент.
+                </div>
+            </li>
+        {% empty %}
+            <p class="empty">У цій категорії ще немає статей.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <a class="crumb" href="{% url 'blog:article_list' %}">← Усі статті</a>
+
+    <div class="card">
+        <div class="title" style="font-size:20px;">
+            {{ article.title }}
+            {% if article.category %}
+                <span class="badge">{{ article.category.name }}</span>
+            {% endif %}
+        </div>
+        <div class="meta">{{ article.created_at|date:"d.m.Y H:i" }}</div>
+        <p style="margin-top:14px; white-space:pre-line;">{{ article.content }}</p>
+    </div>
+
+    <h2>Коментарі ({{ comments.count }})</h2>
+    <ul class="plain">
+        {% for comment in comments %}
+            <li class="card">
+                <div class="title">{{ comment.author }}</div>
+                <div class="meta">{{ comment.created_at|date:"d.m.Y H:i" }}</div>
+                <p style="margin:8px 0 0; white-space:pre-line;">{{ comment.text }}</p>
+            </li>
+        {% empty %}
+            <p class="empty">Коментарів ще немає — будь першим.</p>
+        {% endfor %}
+    </ul>
+
+    <h2>Залишити коментар</h2>
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button class="btn" type="submit">Надіслати</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Нова категорія{% endblock %}
+
+{% block content %}
+    <a class="crumb" href="{% url 'blog:article_list' %}">← Назад</a>
+    <h2>Нова категорія</h2>
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button class="btn" type="submit">Зберегти</button>
+                <a class="btn secondary" href="{% url 'blog:article_list' %}">Скасувати</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
